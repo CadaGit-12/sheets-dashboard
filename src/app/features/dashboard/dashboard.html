@@ -1,0 +1,17 @@
+<h2>Sheets Dashboard</h2>
+
+<div *ngIf="loading">Loading...</div>
+
+<table *ngIf="!loading && data.length">
+  <tr>
+    <th *ngFor="let col of data[0] | keyvalue">
+      {{ col.key }}
+    </th>
+  </tr>
+
+  <tr *ngFor="let row of data">
+    <td *ngFor="let value of row | keyvalue">
+      {{ value.value }}
+    </td>
+  </tr>
+</table>
