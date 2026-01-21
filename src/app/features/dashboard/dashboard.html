@@ -2,16 +2,83 @@
 
 <div *ngIf="loading">Loading...</div>
 
-<table *ngIf="!loading && data.length">
-  <tr>
-    <th *ngFor="let col of data[0] | keyvalue">
-      {{ col.key }}
-    </th>
-  </tr>
+<select
+  (change)="onSheetChange($any($event.target).value)"
+>
+  <option value="" disabled selected>Select Player</option>
+  <option *ngFor="let title of sheetTitles" [value]="title">
+    {{ title }}
+  </option>
+</select>
 
-  <tr *ngFor="let row of data">
-    <td *ngFor="let value of row | keyvalue">
-      {{ value.value }}
-    </td>
-  </tr>
-</table>
+<div *ngIf="data?.summary">
+  <h2>Summary</h2>
+  <p>Games Played: {{ data.summary.games_played }}</p>
+  <p>Winrate: {{ data.summary.overall_winrate | percent:'1.1-2' }}</p>
+</div>
+
+<div *ngIf="data?.by_role?.length">
+  <h2>By Role</h2>
+  <table>
+    <tr>
+      <th>Role</th>
+      <th>Games</th>
+      <th>Winrate</th>
+    </tr>
+    <tr *ngFor="let role of data.by_role">
+      <td>{{ role.role }}</td>
+      <td>{{ role.games }}</td>
+      <td>{{ role.winrate | percent }}</td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="data?.by_category?.length">
+  <h2>By Category</h2>
+  <table>
+    <tr>
+      <th>Category</th>
+      <th>Games</th>
+      <th>Winrate</th>
+    </tr>
+    <tr *ngFor="let category of data.by_category">
+      <td>{{ category.category }}</td>
+      <td>{{ category.games }}</td>
+      <td>{{ category.winrate | percent }}</td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="data?.by_team?.length">
+  <h2>By Team</h2>
+  <table>
+    <tr>
+      <th>Team</th>
+      <th>Games</th>
+      <th>Winrate</th>
+    </tr>
+    <tr *ngFor="let team of data.by_team">
+      <td>{{ team.team }}</td>
+      <td>{{ team.games }}</td>
+      <td>{{ team.winrate | percent }}</td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="data?.log?.length">
+  <h2>Game Log</h2>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Role</th>
+      <th>Win</th>
+      <th>Team</th>
+    </tr>
+    <tr *ngFor="let entry of data.log">
+      <td>{{ entry.date | date }}</td>
+      <td>{{ entry.role_clean }}</td>
+      <td>{{ entry.win === 1 ? 'Win' : 'Loss' }}</td>
+      <td>{{ entry.team }}</td>
+    </tr>
+  </table>
+</div>

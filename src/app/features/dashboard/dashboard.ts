@@ -1,33 +1,48 @@
 import { Component , OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SheetsAPI as SheetsAPIService } from '../../core/Services/sheets-api';
+import { PlayerSheetResponse } from '../../core/models/sheets.models';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-player-dashboard',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
+  templateUrl: './player-dashboard.html',
+  styleUrl: './player-dashboard.css',
 })
 
-export class Dashboard implements OnInit {
+export class PlayerDashboard implements OnInit {
+  sheetTitles: string[] = [];
+  selectedSheet?: string;
 
-  data: any[] = [];
-  loading = true;
+  data?: PlayerSheetResponse;
+  loading = false;
 
-  constructor(private sheetsAPI: SheetsAPIService) {}
+  constructor(private sheetsService: SheetsAPIService) {}
 
   ngOnInit(): void {
-    this.sheetsAPI.getSheetsData().subscribe({
-      next: (data) => {
-        this.data = data;
+    // Startup metadata fetch
+    this.sheetsService.getMetadata().subscribe({
+      next: titles => this.sheetTitles = titles,
+      error: err => console.error('Metadata fetch failed', err)
+    });
+  }
+
+  onSheetChange(title: string) {
+    this.selectedSheet = title;
+    this.loading = true;
+
+    this.sheetsService.getPlayerSheet(title).subscribe({
+      next: res => {
+        this.data = res;
         this.loading = false;
       },
-      error: (error) => {
-        console.error('Error fetching sheets data:', error);
+      error: err => {
+        console.error('Sheet fetch error', err);
         this.loading = false;
       }
     });
   }
+  
 
 }

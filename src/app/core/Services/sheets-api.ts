@@ -1,16 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../enviroments/environment';
+import { PlayerSheetResponse } from '../models/sheets.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SheetsAPI {
-  private apiUrl = 'https://angular-project-backend.onrender.com';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  getSheetsData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/sheets`);
+  /** Startup metadata call */
+  getMetadata(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/metadata`);
+  }
+
+  /** Lazy-load single player sheet */
+  getPlayerSheet(sheetTitle: string): Observable<PlayerSheetResponse> {
+    return this.http.get<PlayerSheetResponse>(
+      `${this.apiUrl}/sheets/${encodeURIComponent(sheetTitle)}`
+    );
   }
 }
