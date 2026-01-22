@@ -1,84 +1,93 @@
 <h2>Sheets Dashboard</h2>
 
-<div *ngIf="loading">Loading...</div>
+<div *ngIf="loading" style="color: #0066cc; padding: 10px;">Loading player data... (this may take a few seconds)</div>
+
+<div *ngIf="error" style="color: #cc0000; padding: 10px; border: 1px solid #cc0000; border-radius: 4px;">
+  {{ error }}
+</div>
 
 <select
   (change)="onSheetChange($any($event.target).value)"
+  [disabled]="loading"
 >
   <option value="" disabled selected>Select Player</option>
-  <option *ngFor="let title of sheetTitles" [value]="title">
-    {{ title }}
+  <option 
+    *ngFor="let sheet of sheetTitles" 
+    [value]="sheet.title"
+  >
+    {{ sheet.title }}
   </option>
 </select>
 
-<div *ngIf="data?.summary">
-  <h2>Summary</h2>
-  <p>Games Played: {{ data.summary.games_played }}</p>
-  <p>Winrate: {{ data.summary.overall_winrate | percent:'1.1-2' }}</p>
-</div>
+<ng-container *ngIf="data as d">
+  <section>
+    <h2>Summary</h2>
+    <p>Games Played: {{ d.summary.games_played }}</p>
+    <p>Winrate: {{ d.summary.overall_winrate | percent:'1.1-2' }}</p>
+  </section>
+  <section *ngIf="d.by_role.length">
+    <h2>By Role</h2>
+    <table>
+      <tr>
+        <th>Role</th>
+        <th>Games</th>
+        <th>Winrate</th>
+      </tr>
+      <tr *ngFor="let role of d.by_role">
+        <td>{{ role.role }}</td>
+        <td>{{ role.games }}</td>
+        <td>{{ role.winrate | percent }}</td>
+      </tr>
+    </table>
+  </section>
 
-<div *ngIf="data?.by_role?.length">
-  <h2>By Role</h2>
-  <table>
-    <tr>
-      <th>Role</th>
-      <th>Games</th>
-      <th>Winrate</th>
-    </tr>
-    <tr *ngFor="let role of data.by_role">
-      <td>{{ role.role }}</td>
-      <td>{{ role.games }}</td>
-      <td>{{ role.winrate | percent }}</td>
-    </tr>
-  </table>
-</div>
+  <section *ngIf="d?.by_category?.length">
+    <h2>By Category</h2>
+    <table>
+      <tr>
+        <th>Category</th>
+        <th>Games</th>
+        <th>Winrate</th>
+      </tr>
+      <tr *ngFor="let category of d.by_category">
+        <td>{{ category.category }}</td>
+        <td>{{ category.games }}</td>
+        <td>{{ category.winrate | percent }}</td>
+      </tr>
+    </table>
+  </section>
 
-<div *ngIf="data?.by_category?.length">
-  <h2>By Category</h2>
-  <table>
-    <tr>
-      <th>Category</th>
-      <th>Games</th>
-      <th>Winrate</th>
-    </tr>
-    <tr *ngFor="let category of data.by_category">
-      <td>{{ category.category }}</td>
-      <td>{{ category.games }}</td>
-      <td>{{ category.winrate | percent }}</td>
-    </tr>
-  </table>
-</div>
+  <section *ngIf="d?.by_team?.length">
+    <h2>By Team</h2>
+    <table>
+      <tr>
+        <th>Team</th>
+        <th>Games</th>
+        <th>Winrate</th>
+      </tr>
+      <tr *ngFor="let team of d.by_team">
+        <td>{{ team.team }}</td>
+        <td>{{ team.games }}</td>
+        <td>{{ team.winrate | percent }}</td>
+      </tr>
+    </table>
+  </section>
 
-<div *ngIf="data?.by_team?.length">
-  <h2>By Team</h2>
-  <table>
-    <tr>
-      <th>Team</th>
-      <th>Games</th>
-      <th>Winrate</th>
-    </tr>
-    <tr *ngFor="let team of data.by_team">
-      <td>{{ team.team }}</td>
-      <td>{{ team.games }}</td>
-      <td>{{ team.winrate | percent }}</td>
-    </tr>
-  </table>
-</div>
-
-<div *ngIf="data?.log?.length">
-  <h2>Game Log</h2>
-  <table>
-    <tr>
-      <th>Date</th>
-      <th>Role</th>
-      <th>Win</th>
-      <th>Team</th>
-    </tr>
-    <tr *ngFor="let entry of data.log">
-      <td>{{ entry.date | date }}</td>
-      <td>{{ entry.role_clean }}</td>
-      <td>{{ entry.win === 1 ? 'Win' : 'Loss' }}</td>
-      <td>{{ entry.team }}</td>
-    </tr>
-  </table>
-</div>
+  <section *ngIf="d?.log?.length">
+    <h2>Game Log</h2>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Role</th>
+        <th>Win</th>
+        <th>Team</th>
+      </tr>
+      <tr *ngFor="let entry of d.log">
+        <td>{{ entry.date | date }}</td>
+        <td>{{ entry.role_clean }}</td>
+        <td>{{ entry.win === 1 ? 'Win' : 'Loss' }}</td>
+        <td>{{ entry.team }}</td>
+      </tr>
+    </table>
+  </section>
+</ng-container>

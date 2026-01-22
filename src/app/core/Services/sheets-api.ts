@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../enviroments/environment';
-import { PlayerSheetResponse } from '../models/sheets.models';
+import { PlayerSheetResponse, SheetsMetadata } from '../models/sheets.models';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +13,8 @@ export class SheetsAPI {
   constructor(private http: HttpClient) {}
 
   /** Startup metadata call */
-  getMetadata(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/metadata`);
+  getMetadata(): Observable<SheetsMetadata[]> {
+    return this.http.get<SheetsMetadata[]>(`${this.apiUrl}/metadata`);
   }
 
   /** Lazy-load single player sheet */

@@ -1,3 +1,8 @@
+export interface SheetsMetadata {
+  title: string;
+  sheetId: number;
+}
+
 export interface Summary {
   games_played: number;
   overall_winrate: number;
@@ -10,13 +15,13 @@ export interface RoleStats {
 }
 
 export interface CategoryStats {
-  role: string;
+  category: string;
   games: number;
   winrate: number;
 }
 
 export interface TeamStats {
-  role: string;
+  team: string;
   games: number;
   winrate: number;
 }
