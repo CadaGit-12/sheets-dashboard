@@ -1,0 +1,267 @@
+/* Header Bar */
+.header-bar {
+  background-color: #8B0000;
+  padding: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+}
+
+.header-content {
+  padding: 0 20px;
+}
+
+.header-text-small {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.header-text-large {
+  font-size: 32px;
+  color: #ffffff;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* Search Section */
+.search-section {
+  padding: 20px;
+  background-color: #f5f5f5;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #8B0000;
+  box-shadow: 0 0 5px rgba(139, 0, 0, 0.3);
+}
+
+/* Player List Container */
+.player-list-container {
+  position: absolute;
+  top: 220px;
+  left: 20px;
+  right: 20px;
+  max-height: 500px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.player-item {
+  padding: 12px 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+}
+
+.player-item:hover {
+  background-color: #e8f4f8;
+  border-color: #8B0000;
+  transform: translateX(5px);
+}
+
+.no-results {
+  padding: 20px 15px;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Summary Section */
+.summary-section {
+  padding: 30px 20px;
+  margin-bottom: 30px;
+  margin-left: 10px;
+  margin-right: 40px;
+}
+
+.summary-box {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.summary-box h2 {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  color: #333;
+  border-bottom: 2px solid #8B0000;
+  padding-bottom: 10px;
+}
+
+/* Stats Subsection */
+.stats-subsection {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.summary-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 120px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #8B0000;
+}
+
+/* Winrate Item Specific */
+.winrate-item {
+  align-items: flex-start;
+}
+
+.winrate-left {
+  min-width: 120px;
+  padding-top: 10px;
+}
+
+.winrate-chart-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.winrate-chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.winrate-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: bold;
+  color: #8B0000;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* By Role Subsection */
+.by-role-subsection {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.by-role-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.by-role-subsection h3 {
+  margin: 0;
+  font-size: 15px;
+  color: #333;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sort-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #666;
+  font-weight: 500;
+}
+
+.sort-btn:hover {
+  background-color: #f5f5f5;
+  border-color: #8B0000;
+}
+
+.sort-btn.active {
+  background-color: #8B0000;
+  color: #ffffff;
+  border-color: #8B0000;
+}
+
+.role-chart-container {
+  height: 400px;
+  width: 100%;
+  position: relative;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 0;
+}
+
+.role-chart-container canvas {
+  min-width: 800px;
+  width: auto !important;
+  height: 100% !important;
+  display: block;
+}

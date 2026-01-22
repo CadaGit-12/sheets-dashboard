@@ -12,6 +12,7 @@ export interface RoleStats {
   role: string;
   games: number;
   winrate: number;
+  category: string;
 }
 
 export interface CategoryStats {

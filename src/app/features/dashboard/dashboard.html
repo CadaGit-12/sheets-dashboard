@@ -1,4 +1,37 @@
-<h2>Sheets Dashboard</h2>
+<!-- Header -->
+<header class="header-bar">
+  <div class="header-content">
+    <div class="header-text-small">Welcome to</div>
+    <div class="header-text-large">BOTC & Friends Player Stats Page</div>
+  </div>
+</header>
+
+<!-- Search Bar Section -->
+<div class="search-section">
+  <input
+    type="text"
+    placeholder="Search players... (Press Enter to select exact match)"
+    [(ngModel)]="searchQuery"
+    (keypress)="onSearchKeyPress($event)"
+    class="search-bar"
+  />
+</div>
+
+<!-- Player List -->
+<div class="player-list-container" *ngIf="searchQuery">
+  <div *ngIf="filteredPlayers().length > 0" class="player-list">
+    <div
+      *ngFor="let player of filteredPlayers()"
+      (click)="onPlayerSelect(player)"
+      class="player-item"
+    >
+      {{ player }}
+    </div>
+  </div>
+  <div *ngIf="filteredPlayers().length === 0" class="no-results">
+    No players found
+  </div>
+</div>
 
 <div *ngIf="loading" style="color: #0066cc; padding: 10px;">Loading player data... (this may take a few seconds)</div>
 
@@ -6,39 +39,61 @@
   {{ error }}
 </div>
 
-<select
-  (change)="onSheetChange($any($event.target).value)"
-  [disabled]="loading"
->
-  <option value="" disabled selected>Select Player</option>
-  <option 
-    *ngFor="let sheet of sheetTitles" 
-    [value]="sheet.title"
-  >
-    {{ sheet.title }}
-  </option>
-</select>
-
 <ng-container *ngIf="data as d">
-  <section>
-    <h2>Summary</h2>
-    <p>Games Played: {{ d.summary.games_played }}</p>
-    <p>Winrate: {{ d.summary.overall_winrate | percent:'1.1-2' }}</p>
-  </section>
-  <section *ngIf="d.by_role.length">
-    <h2>By Role</h2>
-    <table>
-      <tr>
-        <th>Role</th>
-        <th>Games</th>
-        <th>Winrate</th>
-      </tr>
-      <tr *ngFor="let role of d.by_role">
-        <td>{{ role.role }}</td>
-        <td>{{ role.games }}</td>
-        <td>{{ role.winrate | percent }}</td>
-      </tr>
-    </table>
+  <section class="summary-section">
+    <div class="summary-box">
+      <h2>Summary</h2>
+      
+      <!-- Stats Subsection -->
+      <div class="stats-subsection">
+        <div class="summary-stats">
+          <div class="stat-item">
+            <span class="stat-label">Total Games Played</span>
+            <span class="stat-value">{{ d.summary.games_played }}</span>
+          </div>
+          <div class="stat-item winrate-item">
+            <div class="winrate-left">
+              <span class="stat-label">Winrate</span>
+            </div>
+            <div class="winrate-chart-container">
+              <canvas #winChartCanvas></canvas>
+              <div class="winrate-text">{{ d.summary.overall_winrate | percent:'1.1-2' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- By Role Subsection -->
+      <div *ngIf="d.by_role.length" class="by-role-subsection">
+        <div class="by-role-header">
+          <h3>Winrate By Role</h3>
+          <div class="sort-controls">
+            <span class="sort-label">Sort:</span>
+            <button 
+              class="sort-btn" 
+              [class.active]="roleSortBy === 'category'"
+              (click)="setSortBy('category')">
+              Category
+            </button>
+            <button 
+              class="sort-btn" 
+              [class.active]="roleSortBy === 'winrate'"
+              (click)="setSortBy('winrate')">
+              Winrate
+            </button>
+            <button 
+              class="sort-btn" 
+              [class.active]="roleSortBy === 'games'"
+              (click)="setSortBy('games')">
+              Games Played
+            </button>
+          </div>
+        </div>
+        <div class="role-chart-container">
+          <canvas #roleChartCanvas></canvas>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section *ngIf="d?.by_category?.length">
