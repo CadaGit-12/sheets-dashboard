@@ -4,6 +4,18 @@
     <div class="header-text-small">Welcome to</div>
     <div class="header-text-large">BOTC & Friends Player Stats Page</div>
   </div>
+  
+  <!-- Backend Health Check -->
+  <div class="health-check-box" [class.loading]="backendHealth === 'loading'" [class.ok]="backendHealth === 'ok'" [class.error]="backendHealth === 'error'">
+    <div class="health-check-icon">
+      <div *ngIf="backendHealth === 'loading'" class="spinner"></div>
+      <div *ngIf="backendHealth === 'ok'" class="checkmark">✓</div>
+      <div *ngIf="backendHealth === 'error'" class="x-mark">✕</div>
+    </div>
+    <div class="health-check-text">
+      {{ backendHealth === 'loading' ? 'Backend is spinning up please wait a while' : (backendHealth === 'ok' ? 'Backend loaded' : 'Something is wrong with Backend') }}
+    </div>
+  </div>
 </header>
 
 <!-- Search Bar Section -->
@@ -33,7 +45,7 @@
   </div>
 </div>
 
-<div *ngIf="loading" style="color: #0066cc; padding: 10px;">Loading player data... (this may take a few seconds)</div>
+<div *ngIf="loading" style="color: #0066cc; padding: 10px;">Loading player data... (This may take a few seconds)</div>
 
 <div *ngIf="error" style="color: #cc0000; padding: 10px; border: 1px solid #cc0000; border-radius: 4px;">
   {{ error }}
@@ -93,60 +105,54 @@
           <canvas #roleChartCanvas></canvas>
         </div>
       </div>
+
+      <!-- By Category Subsection -->
+      <div *ngIf="d?.by_category?.length" class="by-category-subsection">
+        <div class="subsection-header">
+          <h3>Winrate By Category</h3>
+        </div>
+        <div class="category-chart-container">
+          <canvas #categoryChartCanvas></canvas>
+        </div>
+      </div>
+
+      <!-- By Team Subsection -->
+      <div *ngIf="d?.by_team?.length" class="by-team-subsection">
+        <div class="subsection-header">
+          <h3>Winrate By Team</h3>
+        </div>
+        <div class="team-chart-container">
+          <canvas #teamChartCanvas></canvas>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section *ngIf="d?.by_category?.length">
-    <h2>By Category</h2>
-    <table>
-      <tr>
-        <th>Category</th>
-        <th>Games</th>
-        <th>Winrate</th>
-      </tr>
-      <tr *ngFor="let category of d.by_category">
-        <td>{{ category.category }}</td>
-        <td>{{ category.games }}</td>
-        <td>{{ category.winrate | percent }}</td>
-      </tr>
-    </table>
-  </section>
-
-  <section *ngIf="d?.by_team?.length">
-    <h2>By Team</h2>
-    <table>
-      <tr>
-        <th>Team</th>
-        <th>Games</th>
-        <th>Winrate</th>
-      </tr>
-      <tr *ngFor="let team of d.by_team">
-        <td>{{ team.team }}</td>
-        <td>{{ team.games }}</td>
-        <td>{{ team.winrate | percent }}</td>
-      </tr>
-    </table>
-  </section>
-
-  <section *ngIf="d?.log?.length">
-    <h2>Game Log</h2>
-    <table>
-      <tr>
-        <th>Date</th>
-        <th>Role</th>
-        <th>Win</th>
-        <th>Team</th>
-        <th>Category</th>
-        <th>Notes</th>
-      </tr>
-      <tr *ngFor="let entry of d.log">
-        <td>{{ entry.date | date }}</td>
-        <td>{{ entry.role_clean }}</td>
-        <td>{{ entry.win === 1 ? 'Win' : 'Loss' }}</td>
-        <td>{{ entry.team }}</td>
-        <td>{{ entry.category }}</td>
-        <td>{{ entry.role_note }}</td>
-      </tr>
-    </table>
+  <section *ngIf="d?.log?.length" class="game-log-section">
+    <div class="game-log-box">
+      <h2>Game Log</h2>
+      <table class="game-log-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Role</th>
+            <th>Win?</th>
+            <th>Team</th>
+            <th>Category</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entry of d.log; let odd = odd" [class.odd-row]="odd">
+            <td>{{ entry.date | date }}</td>
+            <td>{{ entry.role_clean }}</td>
+            <td>{{ entry.win === 1 ? 'Win' : 'Loss' }}</td>
+            <td>{{ entry.team }}</td>
+            <td>{{ entry.category }}</td>
+            <td>{{ entry.role_note }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </ng-container>
