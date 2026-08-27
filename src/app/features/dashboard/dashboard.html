@@ -128,10 +128,10 @@
     </div>
   </section>
 
-  <section *ngIf="d?.log?.length" class="game-log-section">
+  <section *ngIf="d?.log" class="game-log-section">
     <div class="game-log-box">
       <h2>Game Log</h2>
-      <table class="game-log-table">
+      <table *ngIf="d.log.length; else noLogEntries" class="game-log-table">
         <thead>
           <tr>
             <th>Date</th>
@@ -145,7 +145,7 @@
         <tbody>
           <tr *ngFor="let entry of d.log; let odd = odd" [class.odd-row]="odd">
             <td>{{ entry.date | date }}</td>
-            <td>{{ entry.role_clean }}</td>
+            <td>{{ entry.role }}</td>
             <td>{{ entry.win === 1 ? 'Win' : 'Loss' }}</td>
             <td>{{ entry.team }}</td>
             <td>{{ entry.category }}</td>
@@ -153,6 +153,9 @@
           </tr>
         </tbody>
       </table>
+      <ng-template #noLogEntries>
+        <p class="no-log-entries">No games recorded for this player.</p>
+      </ng-template>
     </div>
   </section>
 </ng-container>

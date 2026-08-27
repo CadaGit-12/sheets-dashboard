@@ -31,11 +31,11 @@ export interface LogEntry {
   date: string;
   role: string;
   win: number;
-  role_clean: string;
   role_note: string;
   role_note_norm: string;
   category: string;
   team: string;
+  role_clean?: string;
 }
 
 export interface PlayerSheetResponse {
